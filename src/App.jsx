@@ -1,7 +1,7 @@
-import TyomatkaetuLaskelma from "./TyomatkaetuLaskelma";
+import Etupaketti from "./Etupaketti";
 
 function App() {
-  return <TyomatkaetuLaskelma />;
+  return <Etupaketti />;
 }
 
 export default App;
