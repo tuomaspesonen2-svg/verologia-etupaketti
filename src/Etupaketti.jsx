@@ -27,7 +27,6 @@ const SALARY_EXAMPLES = [
   { label: "5 000 €/kk", gross: 5000 },
 ];
 
-const SALARY_MIN = 1500;
 const SALARY_MAX = 20000;
 
 // Interpoloitu marginaalivero palkan funktiona. Pisteet vastaavat
@@ -175,10 +174,15 @@ export default function EtupakettiLaskelma() {
   };
 
   const handleSalaryInput = (raw) => {
+    // Salli tyhjä kenttä ja matalat välitilan arvot kun käyttäjä kirjoittaa.
+    // Ei clampausta alaspäin — käyttäjä voi tyhjentää ja kirjoittaa uudelleen.
+    if (raw === "") {
+      setSalaryGross(0);
+      return;
+    }
     const num = Number(raw);
     if (Number.isNaN(num)) return;
-    const clamped = Math.max(SALARY_MIN, Math.min(SALARY_MAX, Math.round(num)));
-    setSalaryGross(clamped);
+    setSalaryGross(Math.min(SALARY_MAX, Math.max(0, Math.round(num))));
   };
 
   const commutingTicket = commutingUseSaver
@@ -392,10 +396,9 @@ export default function EtupakettiLaskelma() {
               </span>
               <input
                 type="number"
-                min={SALARY_MIN}
                 max={SALARY_MAX}
                 step={100}
-                value={salaryGross}
+                value={salaryGross === 0 ? "" : salaryGross}
                 onChange={(e) => handleSalaryInput(e.target.value)}
                 style={{
                   width: 100, padding: "6px 10px",
