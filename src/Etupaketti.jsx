@@ -397,7 +397,7 @@ display: "flex", justifyContent: "space-between", fontFamily: BODY, fontSize: 14
 </div>
 
 {/* Comparison cards */}
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
+<div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 12, marginBottom: 16 }}>
 <div style={{ ...card, background: SAND, boxShadow: "none" }}>
 <Eyebrow color={MUTED}>Palkankorotus</Eyebrow>
 <div style={{ fontSize: 12, color: MUTED, margin: "14px 0 4px" }}>Työnantaja maksaa /v</div>
@@ -417,7 +417,7 @@ display: "flex", justifyContent: "space-between", fontFamily: BODY, fontSize: 14
 {/* Summary */}
 <div style={{ background: `linear-gradient(135deg, ${NAVY} 0%, ${NAVY_2} 100%)`, borderRadius: 12, padding: 22, color: "#fff", marginBottom: 16 }}>
 <Eyebrow light>Yhteenveto / työntekijä / vuosi</Eyebrow>
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, margin: "16px 0" }}>
+<div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 16, margin: "16px 0" }}>
 <div>
 <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", marginBottom: 4 }}>Työnantaja säästää</div>
 <div style={{ fontFamily: HEAD, fontSize: 23, fontWeight: 800, color: GREEN_SOFT, letterSpacing: "-.02em" }}>{fmt(calc.employerSavingsYear)} €</div>
@@ -437,7 +437,7 @@ Samalla työnantaja <strong style={{ color: GREEN_SOFT }}>säästää {fmt(calc.
 {/* Scale */}
 <div style={{ ...card, marginBottom: 16 }}>
 <Eyebrow color={MUTED}>Skaalattu: {employees} työntekijää / vuosi</Eyebrow>
-<div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 14 }}>
+<div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 12, marginTop: 14 }}>
 <div style={{ background: SAND, borderRadius: 10, padding: 14 }}>
 <div style={{ fontSize: 12, color: MUTED, marginBottom: 4 }}>Palkankorotus yhteensä</div>
 <div style={{ fontFamily: HEAD, fontSize: 18, fontWeight: 800, color: RED, letterSpacing: "-.02em" }}>{fmt(calc.totalCostSalaryYear)} €</div>
