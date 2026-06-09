@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 
 /* Verologia-laskuri – sivuston design-järjestelmä
    Fontit: Bricolage Grotesque (otsikot/numerot) + Inter (leipä) */
@@ -94,7 +94,7 @@ const sliderCSS = `
 .vl-range::-moz-range-thumb{ width:22px; height:22px; border-radius:50%; background:${ACCENT};
   cursor:pointer; border:3px solid #fff; box-shadow:0 2px 6px rgba(13,38,63,.25); }
 
-@media(max-width:600px){ div[style*="minmax(0"]{grid-template-columns:1fr !important} div[style*="minmax(0"]>div{text-align:center !important} }
+@media(max-width:760px){ div[style*="minmax(0"]{grid-template-columns:1fr !important} div[style*="minmax(0"]>div{text-align:center !important} }
 `;
 
 function Eyebrow({ children, light = false, color }) {
@@ -253,8 +253,20 @@ totalEmployerSavingsYear, totalCostBenefitYear, totalCostSalaryYear, selectedCou
 
 const card = { background: WHITE, borderRadius: 12, padding: 18, border: `1px solid ${LINE}`, boxShadow: SHADOW_SM };
 
+const rootRef = useRef(null);
+const [narrow, setNarrow] = useState(false);
+useEffect(() => {
+const el = rootRef.current;
+if (!el || typeof ResizeObserver === "undefined") return;
+const ro = new ResizeObserver((entries) => { setNarrow(entries[0].contentRect.width < 560); });
+ro.observe(el);
+return () => ro.disconnect();
+}, []);
+const cols2 = narrow ? "1fr" : "minmax(0,1fr) minmax(0,1fr)";
+const ctr = narrow ? "center" : "left";
+
 return (
-<div style={{ minHeight: "100vh", background: WHITE, fontFamily: BODY, color: INK }}>
+<div ref={rootRef} style={{ minHeight: "100vh", background: WHITE, fontFamily: BODY, color: INK }}>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>{sliderCSS}</style>
@@ -399,7 +411,7 @@ display: "flex", justifyContent: "space-between", fontFamily: BODY, fontSize: 14
 </div>
 
 {/* Comparison cards */}
-<div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 12, marginBottom: 16 }}>
+<div style={{ display: "grid", gridTemplateColumns: cols2, textAlign: ctr, gap: 12, marginBottom: 16 }}>
 <div style={{ ...card, background: SAND, boxShadow: "none" }}>
 <Eyebrow color={MUTED}>Palkankorotus</Eyebrow>
 <div style={{ fontSize: 12, color: MUTED, margin: "14px 0 4px" }}>Työnantaja maksaa /v</div>
@@ -419,7 +431,7 @@ display: "flex", justifyContent: "space-between", fontFamily: BODY, fontSize: 14
 {/* Summary */}
 <div style={{ background: `linear-gradient(135deg, ${NAVY} 0%, ${NAVY_2} 100%)`, borderRadius: 12, padding: 22, color: "#fff", marginBottom: 16 }}>
 <Eyebrow light>Yhteenveto / työntekijä / vuosi</Eyebrow>
-<div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 16, margin: "16px 0" }}>
+<div style={{ display: "grid", gridTemplateColumns: cols2, textAlign: ctr, gap: 16, margin: "16px 0" }}>
 <div>
 <div style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", marginBottom: 4 }}>Työnantaja säästää</div>
 <div style={{ fontFamily: HEAD, fontSize: 23, fontWeight: 800, color: GREEN_SOFT, letterSpacing: "-.02em" }}>{fmt(calc.employerSavingsYear)} €</div>
@@ -439,7 +451,7 @@ Samalla työnantaja <strong style={{ color: GREEN_SOFT }}>säästää {fmt(calc.
 {/* Scale */}
 <div style={{ ...card, marginBottom: 16 }}>
 <Eyebrow color={MUTED}>Skaalattu: {employees} työntekijää / vuosi</Eyebrow>
-<div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 12, marginTop: 14 }}>
+<div style={{ display: "grid", gridTemplateColumns: cols2, textAlign: ctr, gap: 12, marginTop: 14 }}>
 <div style={{ background: SAND, borderRadius: 10, padding: 14 }}>
 <div style={{ fontSize: 12, color: MUTED, marginBottom: 4 }}>Palkankorotus yhteensä</div>
 <div style={{ fontFamily: HEAD, fontSize: 18, fontWeight: 800, color: RED, letterSpacing: "-.02em" }}>{fmt(calc.totalCostSalaryYear)} €</div>
